@@ -92,6 +92,14 @@ _work/            рабочие PNG из Figma (для сайта не нужн
 
 ## Публикация на GitHub Pages
 
+Репозиторий: https://github.com/108pixels-creator/igrobeauty-kvs-compare (ветка `main`).
+Адрес после включения Pages: https://108pixels-creator.github.io/igrobeauty-kvs-compare/
+
+Обновить снимки и выложить: `python -I _work/export_all.py <версия>` (WebP, высоты, `version`),
+затем `git add -A`, `git commit`, `git push`. `MANIFEST.md`, `_work/` и `serve-local.cmd` в репозиторий не идут.
+
+Как это было настроено с нуля:
+
 1. Создать на GitHub репозиторий, например `igrobeauty-style-showcase`.
    На бесплатном аккаунте Pages работает только у публичных репозиториев.
 2. Залить содержимое этой папки в корень ветки `main`, чтобы `index.html` оказался
