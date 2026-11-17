@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, nofollow">
+  <title>IGRObeauty – стили на страницах сайта</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231E2626'/%3E%3Cpath d='M10 22V10M16 22V10M22 22V10' stroke='%23F3F5F4' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="stage" id="stage">
+    <div class="sheet" id="sheet"></div>
+  </main>
+
+  <div class="bar" id="bar" role="toolbar" aria-label="Страницы и стили">
+    <div class="meta" id="meta">
+      <div class="meta__title" data-title>IGRObeauty · 7 стилей на страницах сайта</div>
+      <div class="meta__name" id="metaName">&nbsp;</div>
+    </div>
+    <span class="sep" aria-hidden="true"></span>
+    <div class="group" id="pageSeg" role="group" aria-label="Страница"></div>
+    <span class="sep" aria-hidden="true"></span>
+    <div class="group" id="styleSeg" role="group" aria-label="Стиль"></div>
+    <span class="sep" aria-hidden="true"></span>
+    <div class="tools">
+      <button type="button" class="btn tool tool--kv" id="kvBtn" aria-pressed="false" title="Ключевой визуал стиля – K">KV</button>
+      <button type="button" class="btn tool tool--icon" id="helpBtn" aria-label="Подсказка" title="Подсказка – ?">?</button>
+      <button type="button" class="btn tool tool--icon" id="hideBtn" aria-label="Скрыть панель" title="Скрыть панель – H">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6.5 8 10.5 12 6.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <button type="button" class="pill" id="pill" aria-label="Показать панель" title="Показать панель – H">
+    <span class="pill__n" id="pillNum">1</span>
+    <span class="pill__name" id="pillName"></span>
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 9.5 8 5.5 12 9.5"/></svg>
+  </button>
+
+  <div class="kv" id="kv" role="dialog" aria-modal="true" aria-label="Ключевой визуал" aria-hidden="true" tabindex="-1">
+    <div class="kv__head">
+      <div class="kv__caption">
+        <div class="kv__eyebrow" id="kvEyebrow">Ключевой визуал</div>
+        <div class="kv__name" id="kvName"></div>
+      </div>
+      <button type="button" class="btn tool tool--icon" id="kvClose" aria-label="Закрыть" title="Закрыть – Esc или K">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg>
+      </button>
+    </div>
+    <div class="kv__box" id="kvBox"></div>
+    <button type="button" class="kv__arrow kv__arrow--prev" id="kvPrev" aria-label="Предыдущий стиль" title="Предыдущий стиль – ←">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5"/></svg>
+    </button>
+    <button type="button" class="kv__arrow kv__arrow--next" id="kvNext" aria-label="Следующий стиль" title="Следующий стиль – →">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
+    </button>
+  </div>
+
+  <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle" hidden>
+    <div class="intro__card">
+      <p class="intro__eyebrow" id="introTitle" data-title>IGRObeauty · 7 стилей на страницах сайта</p>
+      <ul class="intro__list">
+        <li>Это живые страницы сайта на десктопе, 1440 px. Скролльте как обычный сайт.</li>
+        <li>Переключайте стиль кнопками <kbd>1</kbd>–<kbd data-count>7</kbd> или стрелками <kbd>←</kbd>/<kbd>→</kbd> – место на странице сохранится.</li>
+        <li>Страница – кнопки на панели или клавиши <kbd>Q</kbd> <kbd>W</kbd> <kbd>E</kbd>.</li>
+        <li><kbd>K</kbd> – ключевой визуал стиля. <kbd>H</kbd> – скрыть панель.</li>
+      </ul>
+      <button type="button" class="intro__ok" id="introOk">Понятно</button>
+    </div>
+  </div>
+
+  <noscript><p class="fatal">Для просмотра нужен JavaScript.</p></noscript>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
