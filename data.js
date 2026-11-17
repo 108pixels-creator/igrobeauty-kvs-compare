@@ -27,7 +27,7 @@
 window.SHOWCASE = {
   pageWidth: 1440,
   pagePath: 'assets/pages/{page}-{style}.webp',
-  version: '2026-11-17h',
+  version: '2026-11-17i',
 
   defaultPage: 'cooperation',
   defaultStyle: 'base',

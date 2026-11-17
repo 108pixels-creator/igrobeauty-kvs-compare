@@ -314,8 +314,72 @@
   function schedulePreload() {
     clearTimeout(preloadTimer);
     preloadTimer = setTimeout(() => {
-      idle(() => neighbours(state.style).forEach((sid) => getImg(pageUrl(state.page, sid), true)));
+      idle(() => {
+        // соседние стили: скачать и сразу раскодировать – переключение на них мгновенное
+        neighbours(state.style).forEach((sid) => {
+          const img = getImg(pageUrl(state.page, sid), true);
+          whenLoaded(img).then(() => decodeQuietly(img)).catch(() => {});
+        });
+        sweep();
+      });
     }, 250);
+  }
+
+  /* ---------- Фоновая подгрузка всего набора ---------- */
+  // После первой страницы по одной докачиваются все остальные картинки (в кэш браузера),
+  // порядок пересчитывается на каждом шаге и следует за тем, что открыто сейчас.
+  // Пока грузится открытая картинка, фон ждёт.
+
+  const swept = new Set();
+  let sweeping = false;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function sweepOrder() {
+    const list = [];
+    const add = (u) => { if (u && list.indexOf(u) < 0) list.push(u); };
+    const n = STYLES.length;
+    const i = Math.max(0, styleIndex(state.style));
+    for (let d = 1; d < n; d++) {               // эта страница в остальных стилях, от соседей наружу
+      add(pageUrl(state.page, STYLES[(i + d) % n].id));
+      add(pageUrl(state.page, STYLES[(i - d + n) % n].id));
+    }
+    const cur = findIn(STYLES, state.style);
+    if (cur && cur.kv) add(withVersion(cur.kv));  // KV этого стиля
+    PAGES.forEach((p) => add(pageUrl(p.id, state.style)));      // этот стиль на других страницах
+    PAGES.forEach((p) => STYLES.forEach((s) => add(pageUrl(p.id, s.id))));
+    STYLES.forEach((s) => { if (s.kv) add(withVersion(s.kv)); });
+    return list;
+  }
+
+  function isReady(url) {
+    if (swept.has(url)) return true;
+    const c = cache.get(url);
+    return !!(c && c.complete && c.naturalWidth);
+  }
+
+  function fetchQuiet(url) {
+    return new Promise((resolve) => {
+      const im = new Image();
+      im.fetchPriority = 'low';
+      im.decoding = 'async';
+      im.onload = im.onerror = () => resolve();
+      im.src = url;
+    });
+  }
+
+  async function sweep() {
+    if (sweeping) return;
+    const conn = navigator.connection;
+    if (conn && conn.saveData) return;          // режим экономии трафика – только по запросу
+    sweeping = true;
+    for (;;) {
+      if (busy.page || busy.kv) { await wait(300); continue; }
+      const url = sweepOrder().find((u) => !isReady(u));
+      if (!url) break;
+      await fetchQuiet(url);
+      swept.add(url);
+    }
+    sweeping = false;
   }
 
   // Под открытым KV страница догружается не сразу: стрелки листают KV быстро.
